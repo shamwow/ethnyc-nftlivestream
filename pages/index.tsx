@@ -3,8 +3,15 @@ import Head from 'next/head'
 import Image from 'next/image'
 import MuxVideo from '@mux-elements/mux-video-react';
 import styles from '../styles/Home.module.css'
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
+    const { query } = useRouter();
+    const id = query.id;
+    if (!id || Array.isArray(query)) {
+        return <div>No Video</div>
+    }
+
     return (
         <div className={styles.container}>
             <Head>
@@ -16,16 +23,16 @@ const Home: NextPage = () => {
             <main className={styles.main}>
                 <MuxVideo
                     style={{ height: '100%', maxWidth: '100%' }}
-                    playbackId="OZBWaPwa4GgwsTiAgrpuMGSbOGisXYCL01tiokxn00PFc"
+                    playbackId={id as any}
                     metadata={{
                         video_id: 'video-id-123456',
                         video_title: 'Super Interesting Video',
                         viewer_user_id: 'user-id-bc-789',
                     }}
-                    streamType="on-demand"
+                    streamType="live"
+                    autoPlay={true}
                     controls
-                    autoPlay
-                    muted
+
                 />
             </main>
 
